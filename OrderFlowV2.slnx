@@ -1,0 +1,20 @@
+<Solution>
+  <Folder Name="/Gateways/">
+    <Project Path="OrderFlowV2.Gateway/OrderFlowV2.Gateway.csproj" Id="0c43812f-b3fd-40b1-b1e8-6a2b61990758" />
+  </Folder>
+  <Folder Name="/Services/">
+    <Project Path="OrderFlowV2.Basket.API/OrderFlowV2.Basket.API.csproj" Id="9b241c5b-7d63-4848-b19e-3a20505d5ee9" />
+    <Project Path="OrderFlowV2.Inventory.API/OrderFlowV2.Inventory.API.csproj" Id="2a22a0a3-68f4-4470-902f-3d6db0b197c5" />
+    <Project Path="OrderFlowV2.Notification.API/OrderFlowV2.Notification.API.csproj" Id="28cf1a0b-baae-449f-b64b-a0dec175d50e" />
+    <Project Path="OrderFlowV2.Order.API/OrderFlowV2.Order.API.csproj" Id="7ab40310-81d0-4c62-a156-3e3fd16d6663" />
+    <Project Path="OrderFlowV2.Payment.API/OrderFlowV2.Payment.API.csproj" Id="bfe1a207-4e32-4e32-9b32-ecde56a940dc" />
+    <Project Path="OrderFlowV2.Shipping.API/OrderFlowV2.Shipping.API.csproj" Id="47935e75-4277-4a59-ad2c-437d64b2995b" />
+  </Folder>
+  <Folder Name="/Shared/">
+    <Project Path="OrderFlowV2.Shared/OrderFlowV2.Shared.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="docker-compose.yml" />
+  </Folder>
+  <Project Path="OrderFlowV2.ConsoleClient/OrderFlowV2.ConsoleClient.csproj" Id="37ba84c8-7587-4bdc-8c7c-ba9ff8711adc" />
+</Solution>

@@ -1,0 +1,140 @@
+version: '3.4'
+
+services:
+  # --- ALTYAPI SERVİSLERİ ---
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672" # Mesajlaşma portu
+      - "15672:15672" # Yönetim Paneli portu
+    networks:
+      - orderflow-net
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - orderflow-net
+
+  orderdb:
+    image: mysql:8.0
+    container_name: orderdb
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: orderdb
+    ports:
+      - "3308:3306"
+    networks:
+      - orderflow-net
+
+  inventorydb:
+    image: mysql:8.0
+    container_name: inventorydb
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: inventorydb
+    ports:
+      - "3307:3306"
+    networks:
+      - orderflow-net
+
+      # MİKROSERVİSLERİMİZ -----
+
+  order.api:
+    container_name: order.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    build:
+      context: .
+      dockerfile: OrderFlowV2.Order.API/Dockerfile
+    depends_on:
+      - rabbitmq
+      - orderdb
+    networks:
+      - orderflow-net
+
+  inventory.api:
+    container_name: inventory.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    build:
+      context: .
+      dockerfile: OrderFlowV2.Inventory.API/Dockerfile
+    depends_on:
+      - rabbitmq
+      - inventorydb
+    networks:
+      - orderflow-net
+
+  payment.api:
+    container_name: payment.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    build:
+      context: .
+      dockerfile: OrderFlowV2.Payment.API/Dockerfile
+    depends_on:
+      - rabbitmq
+    networks:
+      - orderflow-net
+
+  shipping.api:
+    container_name: shipping.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    build:
+      context: .
+      dockerfile: OrderFlowV2.Shipping.API/Dockerfile
+    depends_on:
+      - rabbitmq
+    networks:
+      - orderflow-net
+
+  basket.api:
+    container_name: basket.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    build:
+      context: .
+      dockerfile: OrderFlowV2.Basket.API/Dockerfile
+    depends_on:
+      - rabbitmq
+      - redis
+    networks:
+      - orderflow-net
+    
+  notification.api:
+    container_name: notification.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    build:
+      context: .
+      dockerfile: OrderFlowV2.Notification.API/Dockerfile
+    depends_on:
+      - rabbitmq
+    networks:
+      - orderflow-net
+
+
+  gateway:
+    container_name: gateway
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    build:
+      context: .
+      dockerfile: OrderFlowV2.Gateway/Dockerfile
+    ports:
+      - "5000:8080" #Dış dünyaya açılan tek kapı!
+    depends_on:
+      - order.api
+      - basket.api
+    networks:
+      - orderflow-net
+
+
+networks:
+  orderflow-net:
+    driver: bridge

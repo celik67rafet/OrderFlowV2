@@ -1,0 +1,6 @@
+@OrderFlowV2.Notification.API_HostAddress = http://localhost:5145
+
+GET {{OrderFlowV2.Notification.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

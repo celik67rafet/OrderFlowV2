@@ -1,0 +1,6 @@
+@OrderFlowV2.Payment.API_HostAddress = http://localhost:5188
+
+GET {{OrderFlowV2.Payment.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

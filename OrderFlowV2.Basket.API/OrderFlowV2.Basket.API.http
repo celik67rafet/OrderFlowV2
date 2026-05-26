@@ -1,0 +1,6 @@
+@OrderFlowV2.Basket.API_HostAddress = http://localhost:5285
+
+GET {{OrderFlowV2.Basket.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
